@@ -1,7 +1,18 @@
 var express = require('express');
 var router = express.Router();
 var app = express();
+var cors = require('cors');
+
 app.use(express.json());
+
+var corsOptions = {
+  origin: ['http://0.0.0.0', /http:\/\/localhost.*/, /http:\/\/127.0.0.1.*/],
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+  credentials: true
+  // allowedHeaders: ['Content-Type']
+};
+
+app.use(cors(corsOptions));
 
 var users = [];
 
