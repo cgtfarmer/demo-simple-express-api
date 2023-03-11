@@ -1,82 +1,61 @@
 var express = require('express');
 var router = express.Router();
 var app = express();
-var cors = require('cors');
 
 app.use(express.json());
 
-var corsOptions = {
-  origin: ['http://0.0.0.0', /http:\/\/localhost.*/, /http:\/\/127.0.0.1.*/],
-  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-  credentials: true
-  // allowedHeaders: ['Content-Type']
-};
+router.get("/", async function(request, response) {
+  response.end("Welcome to my API")
+})
 
-app.use(cors(corsOptions));
+router.get("/hello", async function(request, response) {
+  response.end("Hello. How are you?")
+})
 
-var users = [];
+router.get("/john-greeting", async function(request, response) {
+  var name = "John"
+  var greeting = "Hello, " + name + ", how are you?"
+  response.end(greeting)
+})
 
-router.get('/users', async function(req, res) {
-  console.log("[Users#Index]");
+router.get("/random-greeting", async function(request, response) {
+  var names = ["John", "Jane", "Chad"]
+  var randomIndex = Math.floor(Math.random() * 3)
+  var name = names[randomIndex]
 
-  res.json(users);
-});
+  var greeting = "Hello, " + name + ", how are you?"
+  response.end(greeting)
+})
 
-router.get('/users/:id', async function(req, res) {
-  console.log("[Users#Show]");
-  console.log(req.params);
+router.get("/intentional-greeting", async function(request, response) {
+  /**
+   * FOR GET REQUEST:
+   * var request = {
+   *   query: {
+   *     name: "John"
+   *   }
+   * }
+   */
 
-  var id = req.params.id;
+  // var name = "John";
+  var name = request.query.name
+  // var name = request.body["name"]
 
-  res.json(users[id]);
-});
+  var greeting = "Hello, " + name + ", how are you?"
+  response.end(greeting)
+})
 
-router.post('/users', async function(req, res) {
-  console.log("[Users#Create]");
-  console.log(req.params);
-  console.log(req.body);
+router.post("/users", async function(request, response) {
+  console.log("[POST] Users")
+  var user = request.body
 
-  var user = {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    age: req.body.age,
-    weight: req.body.weight
-  };
+  console.log(user)
 
-  users.push(user);
-  res.json(user);
-});
+  // Save user here
 
-router.put('/users/:id', async function(req, res) {
-  console.log("[Users#Update]");
-  console.log(req.params);
-  console.log(req.body);
+  response.end(`User: ${user.firstName} ${user.lastName}, successfully saved!`)
+})
 
-  var id = req.params.id;
+app.use(router)
 
-  users[id] = {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    age: req.body.age,
-    weight: req.body.weight
-  };
-
-  var user = users[id];
-  res.json(user);
-});
-
-router.delete('/users/:id', async function(req, res) {
-  console.log("[Users#Destroy]");
-  console.log(req.params);
-
-  var id = req.params.id;
-  var user = users[id];
-
-  users.splice(id, 1);
-  res.json(user);
-});
-
-app.use(router);
-
-module.exports = app;
-
+module.exports = app
