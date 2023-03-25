@@ -3,8 +3,8 @@
 ### Installation
 ```
 1. docker-compose up -d
-2. docker-compose web npm install
-3. docker-compose web npm run dev
+2. docker-compose up -d web npm install
+3. docker-compose up -d web npm run dev
 ```
 
 ### GUI Setup
