@@ -1,0 +1,12 @@
+#!/bin/bash
+
+ls -l ./node_modules | grep -i express
+
+if [[ ! -d ./node_modules ]]; then
+  npm install
+fi
+
+ls -l ./node_modules | grep -i express
+
+# npm install
+npm run dev

@@ -1,24 +1,23 @@
-var express = require('express');
-var router = express.Router();
-var app = express();
+var express = require('express')
+var app = express()
 
-app.use(express.json());
+app.use(express.json())
 
-router.get("/", async function(request, response) {
+app.get("/", async function(request, response) {
   response.end("Welcome to my API")
 })
 
-router.get("/hello", async function(request, response) {
+app.get("/hello", async function(request, response) {
   response.end("Hello. How are you?")
 })
 
-router.get("/john-greeting", async function(request, response) {
+app.get("/john-greeting", async function(request, response) {
   var name = "John"
   var greeting = "Hello, " + name + ", how are you?"
   response.end(greeting)
 })
 
-router.get("/random-greeting", async function(request, response) {
+app.get("/random-greeting", async function(request, response) {
   var names = ["John", "Jane", "Chad"]
   var randomIndex = Math.floor(Math.random() * 3)
   var name = names[randomIndex]
@@ -27,35 +26,49 @@ router.get("/random-greeting", async function(request, response) {
   response.end(greeting)
 })
 
-router.get("/intentional-greeting", async function(request, response) {
+app.get("/get-req-greeting", async function(request, response) {
   /**
-   * FOR GET REQUEST:
+   * # GET Request Structure:
+   * # Assuming URL query: http://localhost:3000/get-req-greeting?name=John&age=25&extra-stuff=Meow
    * var request = {
    *   query: {
-   *     name: "John"
+   *     name: "John",
+   *     age: 25,
+   *     extra-stuff: "Meow",
    *   }
    * }
    */
 
-  // var name = "John";
-  var name = request.query.name
-  // var name = request.body["name"]
+  var name = request.query["name"]
+  var age = request.query["age"]
+  var extraStuff = request.query["extra-stuff"]
 
-  var greeting = "Hello, " + name + ", how are you?"
+  var greeting = "Hello, " + name + ", who is " + age + "years old. How are you? " + extraStuff
   response.end(greeting)
 })
 
-router.post("/users", async function(request, response) {
-  console.log("[POST] Users")
-  var user = request.body
+app.post("/users", async function(request, response) {
+  /**
+   * # POST Request Structure:
+   * # Assuming JSON body: { name: "John", age: 25 }
+   * var request = {
+   *   body: {
+   *     name: "John",
+   *     age: 25
+   *   }
+   * }
+   */
 
-  console.log(user)
+  var name = request.body["name"]
+  var age = request.body["age"]
+  var extraStuff = request.body["extra-stuff"]
 
-  // Save user here
-
-  response.end(`User: ${user.firstName} ${user.lastName}, successfully saved!`)
+  var greeting = "Hello, " + name + ", who is " + age + "years old. How are you? " + extraStuff
+  response.end(greeting)
 })
 
-app.use(router)
+app.listen(3000, function() {
+  console.log("App listening on port 3000")
+})
 
 module.exports = app
