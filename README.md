@@ -21,7 +21,7 @@
 9. Double click web container
 10. Click CLI
 11. npm install
-12. npm run dev 
+12. npm run dev
 ```
 
-Check that everything's working by going to `http://localhost:3000/users` in your browser
+Check that everything's working by going to `http://localhost:3000` in your browser
