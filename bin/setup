@@ -1,0 +1,25 @@
+#!/bin/bash
+
+scriptDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source $scriptDir/utilities
+
+main() {
+  printMsg "\n-- Downloading & Installing NodeJS Image..."
+  docker-compose up -d
+
+  printMsg "\n-- Installing NPM Dependencies..."
+  docker-compose run --rm web npm install
+
+  printMsg "\n-- Bringing Up Stack..."
+  docker-compose down; docker-compose up -d
+}
+
+printMsg() {
+  local RED='\033[0;31m'
+  local CLEAR='\033[0m'
+  echo -e "${RED}$1${CLEAR}"
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main "$@"
+fi
