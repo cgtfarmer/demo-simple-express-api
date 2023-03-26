@@ -1,7 +1,7 @@
 {
   "name": "my-app",
   "version": "1.0.0",
-  "description": "Meow",
+  "description": "Description",
   "main": "app.js",
   "dependencies": {
     "express": "^4.16.4"
